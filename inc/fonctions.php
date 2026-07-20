@@ -2,8 +2,7 @@
 include_once 'connection.php';
 
 function get_all_lines($sql){
-    //echo $sql;
-    $req = mysqli_query(dbconnect(),$sql );
+    $req = mysqli_query(dbconnect(), $sql);
     if (!$req) {
         die('Erreur SQL : ' . mysqli_error(dbconnect()));
     }
@@ -16,8 +15,7 @@ function get_all_lines($sql){
 }
 
 function get_one_line($sql){
-
-    $req = mysqli_query(dbconnect(),$sql );
+    $req = mysqli_query(dbconnect(), $sql);
     if (!$req) {
         die('Erreur SQL : ' . mysqli_error(dbconnect()));
     }
@@ -30,4 +28,44 @@ function connecter_membre($ETU){
     $sql = "SELECT * FROM membre where numero_etu= '$ETU'";
     return get_one_line($sql); 
 }
-?>
+
+function get_produit($id){
+    $id = (int) $id;
+    $sql = "SELECT * FROM produit WHERE id_produit = $id";
+    return get_one_line($sql);
+}
+
+function get_all_produits(){
+    $sql = "SELECT * FROM produit ORDER BY nom";
+    return get_all_lines($sql);
+}
+
+function insert_produit_membre($id_produit, $id_membre, $prix_vente, $quantite_dispo, $date_dispo){
+    $connect = dbconnect();
+    $stmt = mysqli_prepare($connect, "INSERT INTO produit_membre (id_produit, id_membre, prix_vente, quantite_dispo, date_dispo) VALUES (?, ?, ?, ?, ?)");
+    if (!$stmt) {
+        die('Erreur SQL : ' . mysqli_error($connect));
+    }
+
+    mysqli_stmt_bind_param($stmt, 'iidis', $id_produit, $id_membre, $prix_vente, $quantite_dispo, $date_dispo);
+
+    if (!mysqli_stmt_execute($stmt)) {
+        mysqli_stmt_close($stmt);
+        die('Erreur SQL : ' . mysqli_error($connect));
+    }
+
+    $insert_id = mysqli_insert_id($connect);
+    mysqli_stmt_close($stmt);
+    return $insert_id;
+}
+
+// function get_produits_membre_en_vente(){
+//     $sql = "SELECT pm.id_produit_membre, p.nom, c.nom_categorie, m.nom AS vendeur, pm.prix_vente, pm.quantite_dispo, pm.date_dispo
+//             FROM produit_membre pm
+//             JOIN produit p ON pm.id_produit = p.id_produit
+//             JOIN categorie c ON p.id_categorie = c.id_categorie
+//             JOIN membre m ON pm.id_membre = m.id_membre
+//             WHERE pm.quantite_dispo > 0
+//             ORDER BY pm.id_produit_membre DESC";
+//     return get_all_lines($sql);
+// }

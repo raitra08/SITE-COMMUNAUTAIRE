@@ -62,7 +62,6 @@ INSERT INTO categorie(nom_categorie) VALUES
 ('Snack'),
 ('Dessert');
 
-
 INSERT INTO produit(nom, id_categorie, prix_reference) VALUES
 ('Pizza Margherita', 1, 8.50),
 ('Burger Classique', 1, 7.00),

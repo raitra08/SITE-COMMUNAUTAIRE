@@ -41,3 +41,9 @@
 - Développement de `vendre.php`
 - Développement de `mes_ventes.php`
 
+    ### Vendre.php
+      #### 1- Creation formulaire
+        - Produit
+        - Prix
+        - Quantité
+        - Date disponible
