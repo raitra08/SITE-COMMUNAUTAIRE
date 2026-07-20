@@ -30,4 +30,14 @@ function connecter_membre($ETU){
     $sql = "SELECT * FROM membre where numero_etu= '$ETU'";
     return get_one_line($sql); 
 }
+
+function ajouter_membre($nom, $numero, $image = NULL){
+    if($image!= null){
+        $sql = "INSERT INTO membre (nom,numero_etu,image_profil) VALUES ('$nom','$numero','$image')";
+    }
+    else{
+        $sql = "INSERT INTO membre (nom,numero_etu) VALUES ('$nom','$numero')";
+    }
+    mysqli_query(dbconnect(), $sql);
+}
 ?>
