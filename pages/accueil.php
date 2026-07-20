@@ -15,6 +15,7 @@ $produits = get_all_produits_en_vente();
 </head>
 <body>
     <h1>Bienvenue sur le site de vente entre étudiants</h1>
+    <a href="vendre.php">Proposer un produit en vente</a>
     <?php foreach($produits as $produit){ ?>
 
 <div class="produit">

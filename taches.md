@@ -4,7 +4,7 @@
 
 ### Fonctionnalités prévues
 
-#### Base de données
+#### Base de données ok
 - Création de la base `site_communautaire`
 - Création des tables :
   - membre
@@ -17,15 +17,38 @@
 #### Fonctions
 - Connexion d'un membre
 - Inscription automatique
+
+##### en cours
 - Achat d'un produit
-- Vente d'un produit
+
+##### Fonction get_produit ok
+  - selection produit where id_produit = id
+
+##### Fonction get_all_produits ok
+  - retourne tous les produits par ordre du nom
+
+##### Fonction insert_produit_membre ok
+  - affichage des produits depuis vendre.php vers accueil.php
+
+##### en cours
 - Calcul du montant des ventes
 
 #### Pages
 - index.php (Login)
 - accueil.php
-- vendre.php
+
+### Vendre.php
+  #### Creation formulaire ok
+    - Produit
+    - Prix
+    - Quantité
+    - Date disponible
+
+#### en cours
 - mes_ventes.php
+
+
+
 
 ---
 
@@ -38,12 +61,8 @@
 - Développement de la page `accueil.php`
 
 ### Étudiant 2 : Vanilla
-- Développement de `vendre.php`
-- Développement de `mes_ventes.php`
+- Developpement de `accueil.php` ok
+- Développement de `vendre.php` ok
+- Développement de `mes_ventes.php` en cours
 
-    ### Vendre.php
-      #### 1- Creation formulaire
-        - Produit
-        - Prix
-        - Quantité
-        - Date disponible
+

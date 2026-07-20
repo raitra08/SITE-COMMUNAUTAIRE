@@ -16,7 +16,7 @@ if (isset($_GET['id'])) {
         }
     }
 }
-
+$id = isset($_GET['id']) ? $_GET['id'] : 0;
 ?>
  
 <!DOCTYPE html>
@@ -40,8 +40,8 @@ if (isset($_GET['id'])) {
 
             <?php foreach ($produits as $produit): ?>
             
-                <option value="<?= $produit['id_produit'] ?>"
-                    <?= ($produit['id_produit'] == $_GET['id']) ? 'selected' : '' ?>>
+                <option value="<?= $produit['id_produit'] ?>" 
+                    <?= ($produit['id_produit'] == $id) ? 'selected' : '' ?>>
                     <?= $produit['nom'] ?>
                 </option>
             
