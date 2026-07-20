@@ -39,6 +39,21 @@ function ajouter_membre($nom, $numero, $image = NULL){
     mysqli_query(dbconnect(), $sql);
 }
 
+function uploaderImage($image){
+
+    $nomImage = time() . "_" . $image['name'];
+
+    $destination = "../uploads/" . $nomImage;
+
+    move_uploaded_file(
+        $image['tmp_name'],
+        $destination
+    );
+
+    return "uploads/" . $nomImage;
+}
+
+
 function get_produit($id){
     $id = (int) $id;
     $sql = "SELECT * FROM produit WHERE id_produit = $id";
