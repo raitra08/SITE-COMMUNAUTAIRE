@@ -40,3 +40,4 @@
 ### Étudiant 2 : Vanilla
 - Développement de `vendre.php`
 - Développement de `mes_ventes.php`
+
