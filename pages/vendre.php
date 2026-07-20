@@ -18,7 +18,7 @@ if (isset($_GET['id'])) {
 }
 
 ?>
-
+ 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
