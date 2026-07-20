@@ -1,28 +1,27 @@
 <?php
 session_start();
+
 include_once '../inc/connection.php';
-include '../inc/fonctions.php';
+include_once '../inc/fonctions.php';
 
 if (!isset($_SESSION['membre_id'])) {
-    header('Location: pages/index.php');
-    exit;
+    header("Location: index.php");
+    exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: vendre.php');
-    exit;
-}
+$id_produit = (int)$_POST['id_produit'];
+$id_membre = $_SESSION['membre_id'];
+$prix_vente = $_POST['prix_vente'];
+$quantite_dispo = $_POST['quantite_dispo'];
+$date_dispo = $_POST['date_disponible'];
 
-$id_produit = (int) ($_POST['id_produit'] ?? 0);
-$id_membre = (int) $_SESSION['membre_id'];
-$prix_vente = (float) ($_POST['prix_vente'] ?? 0);
-$quantite_dispo = (int) ($_POST['quantite_dispo'] ?? 0);
-$date_dispo = trim((string) ($_POST['date_disponible'] ?? ''));
+insert_produit_membre(
+    $id_produit,
+    $id_membre,
+    $prix_vente,
+    $quantite_dispo,
+    $date_dispo
+);
 
-if ($id_produit <= 0 || $prix_vente <= 0 || $quantite_dispo <= 0 || $date_dispo === '') {
-    die('Veuillez remplir tous les champs correctement.');
-}
-
-insert_produit_membre($id_produit, $id_membre, $prix_vente, $quantite_dispo, $date_dispo);
-header('Location: accueil.php');
-exit;
+header("Location: accueil.php");
+exit();

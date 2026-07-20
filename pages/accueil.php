@@ -45,6 +45,37 @@ $produits = get_all_produits_en_vente($_SESSION['id_membre']);
             <?php echo $produit['date_dispo']; ?>
         </p>
 
+    <p>
+        Vendeur :
+        <?= $produit['vendeur']; ?>
+    </p>
+
+<form action="traitement_achat.php" method="post">
+
+    <input type="hidden"
+           name="id_produit_membre"
+           value="<?= $produit['id_produit_membre']; ?>">
+
+    <p>
+        Quantité à acheter :
+        <input
+            type="number"
+            name="quantite_achat"
+            min="1"
+            max="<?= $produit['quantite_dispo']; ?>"
+            value="1">
+    </p>
+
+    <input type="submit" value="Acheter">
+
+</form>
+
+    <!-- <p>Quantité à acheter :
+        <input type="number" name="quantite_achat"
+                min="1" max="<?= $produit['quantite_dispo']; ?>"
+                value="1">
+    </p>
+        <a href="traitement_achat.php?id_produit_membre=<?= $produit['id_produit_membre']; ?>">Acheter</a> -->
 
         <form action="acheter_traitement.php" method="POST">
         <input type="hidden" name="id_produit_membre" value="<?= $produit['id_produit_membre']; ?>">
