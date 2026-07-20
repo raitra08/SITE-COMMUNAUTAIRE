@@ -38,7 +38,6 @@ function ajouter_membre($nom, $numero, $image = NULL){
     }
     mysqli_query(dbconnect(), $sql);
 }
-?>
 
 function get_produit($id){
     $id = (int) $id;
@@ -97,5 +96,5 @@ function get_all_produits_en_vente(){
     return get_all_lines($sql);
 }
 
-?>
+
 ?>
