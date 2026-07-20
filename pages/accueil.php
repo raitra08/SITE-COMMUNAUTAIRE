@@ -39,8 +39,10 @@ $produits = get_all_produits_en_vente();
         <?= $produit['date_dispo']; ?>
     </p>
 
-    
-        <a href="acheter.php?id=<?= $produit['id_produit_membre']; ?>">Acheter</a>
+    <p>Quantité à acheter :
+        <input type="number" name="quantite_achat" min="1" max="<?= $produit['quantite_dispo']; ?>" value="1">
+    </p>
+        <a href="traitement_achat.php?id=<?= $produit['id_produit_membre']; ?>">Acheter</a>
 
 </div>
 
