@@ -87,14 +87,11 @@ Sélectionner un produit
 <?php foreach($produits as $produit){ ?>
 
 
-<option value="<?= $produit['id_produit']; ?>"
-
-<?= ($produit['id_produit'] == $id) ? "selected" : ""; ?>
-
-
+<option value="<?php echo $produit['id_produit']; ?>"
+<?php echo ($produit['id_produit'] == $id) ? "selected" : ""; ?>
 >
 
-<?= $produit['nom']; ?>
+<?php echo $produit['nom']; ?>
 
 
 </option>
@@ -117,7 +114,7 @@ Sélectionner un produit
 
 Prix de vente :
 
-<input type="number" name="prix_vente" step="0.01" min="0" value="<?= $selectedProduit ? $selectedProduit['prix_reference'] : ''; ?>" required>
+<input type="number" name="prix_vente" step="0.01" min="0" value="<?php echo $selectedProduit ? $selectedProduit['prix_reference'] : ''; ?>" required>
 
 </p>
 <p>

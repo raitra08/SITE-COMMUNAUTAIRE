@@ -26,25 +26,25 @@ Retour accueil
 <br><br>
 <?php foreach($ventes as $vente){ ?>
 Produit :
-<?= $vente['nom']; ?>
+<?php echo $vente['nom']; ?>
 <br>
 
 Prix :
-<?= $vente['prix_vente']; ?> Ar
+<?php echo $vente['prix_vente']; ?> Ar
 <br>
 
 Quantité vendue :
-<?= $vente['quantite_vendue']; ?>
+<?php echo $vente['quantite_vendue']; ?>
 <br>
 
 Montant :
-<?= $vente['montant']; ?> Ar
+<?php echo $vente['montant']; ?> Ar
 <hr>
 <?php } ?>
 
 <h2>
 Total gagné :
-<?= $total['total']; ?> Ar
+<?php echo $total['total']; ?> Ar
 </h2>
 
 

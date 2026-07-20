@@ -27,7 +27,7 @@ Bienvenue sur le site de vente entre étudiants
 </h1>
 <h3>
 Connecté en tant que :
-<?= $_SESSION['nom']; ?>
+<?php echo $_SESSION['nom']; ?>
 </h3>
 <a href="vendre.php">
 Proposer un produit en vente
@@ -40,28 +40,28 @@ Mes ventes
 
 <div class="produit">
 <h3>
-<?= $produit['nom']; ?>
+<?php echo $produit['nom']; ?>
 </h3>
 
 <p>
 
 Prix :
 
-<?= $produit['prix_vente']; ?> Ar
+<?php echo $produit['prix_vente']; ?> Ar
 
 </p>
 <p>
 
 Quantité disponible :
 
-<?= $produit['quantite_dispo']; ?>
+<?php echo $produit['quantite_dispo']; ?>
 
 </p>
 <p>
 
 Disponible depuis :
 
-<?= $produit['date_dispo']; ?>
+<?php echo $produit['date_dispo']; ?>
 
 </p>
 
@@ -72,7 +72,7 @@ Disponible depuis :
 
 Vendeur :
 
-<?= $produit['vendeur']; ?>
+<?php echo $produit['vendeur']; ?>
 
 </p>
 <form action="traitement_achat.php" method="post">
@@ -80,7 +80,7 @@ Vendeur :
 
 name="id_produit_membre"
 
-value="<?= $produit['id_produit_membre']; ?>">
+value="<?php echo $produit['id_produit_membre']; ?>">
 <p>
 
 Quantité à acheter :
@@ -93,7 +93,7 @@ name="quantite_achat"
 
 min="1"
 
-max="<?= $produit['quantite_dispo']; ?>"
+max="<?php echo $produit['quantite_dispo']; ?>"
 
 value="1"
 
