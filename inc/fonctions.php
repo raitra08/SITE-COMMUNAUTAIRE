@@ -102,15 +102,68 @@ function get_all_produits_en_vente(){
                 p.nom,
                 pm.prix_vente,
                 pm.quantite_dispo,
-                pm.date_dispo
+                pm.date_dispo,
+                m.nom AS vendeur
             FROM produit_membre pm
             JOIN produit p 
             ON pm.id_produit = p.id_produit
+            JOIN membre m
+            ON pm.id_membre = m.id_membre
+            WHERE pm.quantite_dispo > 0
             ORDER BY pm.date_dispo DESC";
 
     return get_all_lines($sql);
 }
 
+function traitement_achat($id_produit_membre, $quantite_achat){
+    $sql1 = "SELECT quantite_dispo FROM produit_membre
+            WHERE id_produit_membre = $id_produit_membre";
+
+    $result = get_one_line($sql1);
+
+    if(!$result){
+        return false; // produit introuvable
+    }
+
+    $quantite_dispo = $result['quantite_dispo'];
+
+    if($quantite_achat > $quantite_dispo){
+        return false; // Quantité demandée supérieure à la quantité disponible
+    }
+
+    $sql2 = "UPDATE produit_membre
+            SET quantite_dispo = quantite_dispo - $quantite_achat
+            WHERE id_produit_membre = $id_produit_membre";
+
+    mysqli_query(dbconnect(), $sql2);
+    return true;
+}
+
+
+// function add_achat_dans_vente($id_produit_membre, $quantite_achat){
+
+//     $sql1 = "SELECT id_produit_membre 
+//              FROM produit_membre
+//              WHERE id_produit_membre = $id_produit_membre";
+
+//     $result = get_one_line($sql1);
+
+//     if(!$result){
+//         return false;
+//     }
+
+
+//     $sql2 = "INSERT INTO vente(date_vente, heure, id_produit_membre, quantite)
+//              VALUES(CURDATE(), CURTIME(), $id_produit_membre, $quantite_achat)";
+
+//     $resultat = mysqli_query(dbconnect(), $sql2);
+
+//     if(!$resultat){
+//         return false;
+//     }
+
+//     return true;
+// }
 
 
 ?>
