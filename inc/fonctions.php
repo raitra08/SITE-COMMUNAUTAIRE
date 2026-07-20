@@ -38,7 +38,7 @@ function ajouter_membre($nom, $numero, $image = NULL){
     }
     mysqli_query(dbconnect(), $sql);
 }
-?>
+
 
 function get_produit($id){
     $id = (int) $id;
@@ -80,3 +80,20 @@ function insert_produit_membre($id_produit, $id_membre, $prix_vente, $quantite_d
 //             ORDER BY pm.id_produit_membre DESC";
 //     return get_all_lines($sql);
 // }
+
+function get_all_produits_en_vente(){
+    $sql = "SELECT 
+                pm.id_produit_membre,
+                p.nom,
+                pm.prix_vente,
+                pm.quantite_dispo,
+                pm.date_dispo
+            FROM produit_membre pm
+            JOIN produit p 
+            ON pm.id_produit = p.id_produit
+            ORDER BY pm.date_dispo DESC";
+
+    return get_all_lines($sql);
+}
+
+?>
