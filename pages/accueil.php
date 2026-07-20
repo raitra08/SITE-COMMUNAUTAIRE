@@ -53,7 +53,7 @@ $produits = get_all_produits_en_vente($_SESSION['id_membre']);
 <form action="traitement_achat.php" method="post">
 
     <input type="hidden"
-           name="id_produit_membre"
+           name="id_produit_membre"+
            value="<?= $produit['id_produit_membre']; ?>">
 
     <p>
