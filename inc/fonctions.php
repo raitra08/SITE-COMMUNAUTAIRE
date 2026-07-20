@@ -96,21 +96,41 @@ function insert_produit_membre($id_produit, $id_membre, $prix_vente, $quantite_d
 //     return get_all_lines($sql);
 // }
 
-function get_all_produits_en_vente(){
-    $sql = "SELECT 
-                pm.id_produit_membre,
-                p.nom,
-                pm.prix_vente,
-                pm.quantite_dispo,
-                pm.date_dispo,
-                m.nom AS vendeur
-            FROM produit_membre pm
-            JOIN produit p 
-            ON pm.id_produit = p.id_produit
-            JOIN membre m
-            ON pm.id_membre = m.id_membre
-            WHERE pm.quantite_dispo > 0
-            ORDER BY pm.date_dispo DESC";
+
+
+// function acheter_produit($id_produit_membre, $quantite){
+
+//     $sql = "INSERT INTO vente(date, heure, id_produit_membre, quantite)
+//             VALUES(CURDATE(), CURTIME(), $id_produit_membre, $quantite)";
+//     mysqli_query(dbconnect(), $sql);
+
+//     $sql = "UPDATE produit_membre
+//             SET quantite_dispo = quantite_dispo - $quantite
+//             WHERE id_produit_membre = $id_produit_membre";
+//     mysqli_query(dbconnect(), $sql);
+// }
+
+function get_mes_ventes($id_membre){
+
+    $sql = "
+        SELECT
+            produit.nom,
+            produit_membre.prix_vente,
+            SUM(vente.quantite) AS quantite_vendue,
+            SUM(produit_membre.prix_vente * vente.quantite) AS montant
+
+        FROM vente
+
+        JOIN produit_membre
+        ON vente.id_produit_membre = produit_membre.id_produit_membre
+
+        JOIN produit
+        ON produit_membre.id_produit = produit.id_produit
+
+        WHERE produit_membre.id_membre = $id_membre
+
+        GROUP BY produit.nom, produit_membre.prix_vente
+    ";
 
     return get_all_lines($sql);
 }
@@ -180,5 +200,32 @@ function traitement_achat($id_produit_membre, $quantite_achat){
 
     return true;
 }
+
+
+// function add_achat_dans_vente($id_produit_membre, $quantite_achat){
+
+//     $sql1 = "SELECT id_produit_membre 
+//              FROM produit_membre
+//              WHERE id_produit_membre = $id_produit_membre";
+
+//     $result = get_one_line($sql1);
+
+//     if(!$result){
+//         return false;
+//     }
+
+
+//     $sql2 = "INSERT INTO vente(date_vente, heure, id_produit_membre, quantite)
+//              VALUES(CURDATE(), CURTIME(), $id_produit_membre, $quantite_achat)";
+
+//     $resultat = mysqli_query(dbconnect(), $sql2);
+
+//     if(!$resultat){
+//         return false;
+//     }
+
+//     return true;
+// }
+
 
 ?>

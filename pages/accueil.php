@@ -1,9 +1,12 @@
 <?php
-include_once "../inc/connection.php";
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+session_start();
+
 include_once "../inc/fonctions.php";
 
-$produits = get_all_produits_en_vente();
-
+$produits = get_all_produits_en_vente($_SESSION['id_membre']);
 ?>
 
 <!DOCTYPE html>
@@ -15,29 +18,32 @@ $produits = get_all_produits_en_vente();
 </head>
 <body>
     <h1>Bienvenue sur le site de vente entre étudiants</h1>
+    <h3>Vous êtes connecté(e) en tant que : <?php echo $_SESSION['nom'];?></h3>
     <a href="vendre.php">Proposer un produit en vente</a>
+    <a href="mes_ventes.php">Mes ventes</a>
     <?php foreach($produits as $produit){ ?>
+    
 
-<div class="produit">
+    <div class="produit">
 
-    <h3>
-        <?= $produit['nom']; ?>
-    </h3>
+        <h3>
+            <?php echo $produit['nom']; ?>
+        </h3>
 
-    <p>
-        Prix :
-        <?= $produit['prix_vente']; ?> Ar
-    </p>
+        <p>
+            Prix :
+            <?php echo $produit['prix_vente']; ?> Ar
+        </p>
 
-    <p>
-        Quantité disponible :
-        <?= $produit['quantite_dispo']; ?>
-    </p>
+        <p>
+            Quantité disponible :
+            <?php echo $produit['quantite_dispo']; ?>
+        </p>
 
-    <p>
-        Disponible depuis :
-        <?= $produit['date_dispo']; ?>
-    </p>
+        <p>
+            Disponible depuis :
+            <?php echo $produit['date_dispo']; ?>
+        </p>
 
     <p>
         Vendeur :
@@ -47,7 +53,7 @@ $produits = get_all_produits_en_vente();
 <form action="traitement_achat.php" method="post">
 
     <input type="hidden"
-           name="id_produit_membre"
+           name="id_produit_membre"+
            value="<?= $produit['id_produit_membre']; ?>">
 
     <p>
@@ -71,8 +77,23 @@ $produits = get_all_produits_en_vente();
     </p>
         <a href="traitement_achat.php?id_produit_membre=<?= $produit['id_produit_membre']; ?>">Acheter</a> -->
 
-</div>
+        <form action="acheter_traitement.php" method="POST">
+        <input type="hidden" name="id_produit_membre" value="<?= $produit['id_produit_membre']; ?>">
+
+        Quantité :
+
+        <input type="number" name="quantite" min="1" max="<?= $produit['quantite_dispo']; ?>"
+            required>
+
+        <button type="submit">
+            Acheter
+        </button>
+
+    </form>
+
+    </div>
 
 <?php } ?>
 </body>
 </html>
+
