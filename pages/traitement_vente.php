@@ -14,14 +14,7 @@ $quantite = $_POST['quantite_dispo'];
 $date = $_POST['date_disponible'];
 $id_membre = $_SESSION['id_membre'];
 
-
-
-
 insert_produit_membre($id_produit,$id_membre,$prix,$quantite,$date);
-
 header("Location: accueil.php");
-
 exit();
-
-
 ?>

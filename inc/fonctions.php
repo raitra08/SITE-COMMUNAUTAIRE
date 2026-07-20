@@ -111,30 +111,6 @@ function insert_produit_membre($id_produit, $id_membre, $prix_vente, $quantite_d
 
 
 }
-// function get_produits_membre_en_vente(){
-//     $sql = "SELECT pm.id_produit_membre, p.nom, c.nom_categorie, m.nom AS vendeur, pm.prix_vente, pm.quantite_dispo, pm.date_dispo
-//             FROM produit_membre pm
-//             JOIN produit p ON pm.id_produit = p.id_produit
-//             JOIN categorie c ON p.id_categorie = c.id_categorie
-//             JOIN membre m ON pm.id_membre = m.id_membre
-//             WHERE pm.quantite_dispo > 0
-//             ORDER BY pm.id_produit_membre DESC";
-//     return get_all_lines($sql);
-// }
-
-
-
-// function acheter_produit($id_produit_membre, $quantite){
-
-//     $sql = "INSERT INTO vente(date, heure, id_produit_membre, quantite)
-//             VALUES(CURDATE(), CURTIME(), $id_produit_membre, $quantite)";
-//     mysqli_query(dbconnect(), $sql);
-
-//     $sql = "UPDATE produit_membre
-//             SET quantite_dispo = quantite_dispo - $quantite
-//             WHERE id_produit_membre = $id_produit_membre";
-//     mysqli_query(dbconnect(), $sql);
-// }
 
 function get_mes_ventes($id_membre){
 
@@ -218,47 +194,19 @@ function traitement_achat($id_produit_membre, $quantite_achat){
     return true;
 }
 
-// function add_achat_dans_vente($id_produit_membre, $quantite_achat){
-
-//     $sql1 = "SELECT id_produit_membre 
-//              FROM produit_membre
-//              WHERE id_produit_membre = $id_produit_membre";
-
-//     $result = get_one_line($sql1);
-
-//     if(!$result){
-//         return false;
-//     }
-
-
-//     $sql2 = "INSERT INTO vente(date_vente, heure, id_produit_membre, quantite)
-//              VALUES(CURDATE(), CURTIME(), $id_produit_membre, $quantite_achat)";
-
-//     $resultat = mysqli_query(dbconnect(), $sql2);
-
-//     if(!$resultat){
-//         return false;
-//     }
-
-//     return true;
-// }
 
 function get_total_ventes($id_membre){
 
-    $sql = "
-        SELECT
+    $sql = "SELECT
             SUM(pm.prix_vente * v.quantite) AS total
-
-        FROM vente v
-
-        JOIN produit_membre pm
-        ON v.id_produit_membre = pm.id_produit_membre
-
-        WHERE pm.id_membre = $id_membre
-    ";
+            FROM vente v
+            JOIN produit_membre pm
+            ON v.id_produit_membre = pm.id_produit_membre
+            WHERE pm.id_membre = $id_membre";
 
     return get_one_line($sql);
 }
+
 function get_all_produits_en_vente($id_membre){
 
     $sql = "SELECT
