@@ -65,26 +65,52 @@ function get_all_produits(){
     return get_all_lines($sql);
 }
 
+// function insert_produit_membre($id_produit, $id_membre, $prix_vente, $quantite_dispo, $date_dispo){
+//     $connect = dbconnect();
+//     $stmt = mysqli_prepare($connect, "INSERT INTO produit_membre (id_produit, id_membre, prix_vente, quantite_dispo, date_dispo) VALUES (?, ?, ?, ?, ?)");
+//     if (!$stmt) {
+//         die('Erreur SQL : ' . mysqli_error($connect));
+//     }
+
+//     mysqli_stmt_bind_param($stmt, 'iidis', $id_produit, $id_membre, $prix_vente, $quantite_dispo, $date_dispo);
+
+//     if (!mysqli_stmt_execute($stmt)) {
+//         mysqli_stmt_close($stmt);
+//         die('Erreur SQL : ' . mysqli_error($connect));
+//     }
+
+//     $insert_id = mysqli_insert_id($connect);
+//     mysqli_stmt_close($stmt);
+//     return $insert_id;
+// }
+
 function insert_produit_membre($id_produit, $id_membre, $prix_vente, $quantite_dispo, $date_dispo){
-    $connect = dbconnect();
-    $stmt = mysqli_prepare($connect, "INSERT INTO produit_membre (id_produit, id_membre, prix_vente, quantite_dispo, date_dispo) VALUES (?, ?, ?, ?, ?)");
-    if (!$stmt) {
-        die('Erreur SQL : ' . mysqli_error($connect));
+
+
+    $sql = "INSERT INTO produit_membre
+
+            (id_produit, id_membre, prix_vente, quantite_dispo, date_dispo)
+
+            VALUES
+
+            ('$id_produit',
+             '$id_membre',
+             '$prix_vente',
+             '$quantite_dispo',
+             '$date_dispo')";
+
+
+
+    if(!mysqli_query(dbconnect(), $sql)){
+
+
+        die(mysqli_error(dbconnect()));
+
+
     }
 
-    mysqli_stmt_bind_param($stmt, 'iidis', $id_produit, $id_membre, $prix_vente, $quantite_dispo, $date_dispo);
 
-    if (!mysqli_stmt_execute($stmt)) {
-        mysqli_stmt_close($stmt);
-        die('Erreur SQL : ' . mysqli_error($connect));
-    }
-
-    $insert_id = mysqli_insert_id($connect);
-    mysqli_stmt_close($stmt);
-    return $insert_id;
 }
-
-
 // function get_produits_membre_en_vente(){
 //     $sql = "SELECT pm.id_produit_membre, p.nom, c.nom_categorie, m.nom AS vendeur, pm.prix_vente, pm.quantite_dispo, pm.date_dispo
 //             FROM produit_membre pm
@@ -128,78 +154,69 @@ function get_mes_ventes($id_membre){
 
         WHERE produit_membre.id_membre = $id_membre
 
-        GROUP BY produit.nom, produit_membre.prix_vente
-    ";
+        GROUP BY produit.nom, produit_membre.prix_vente";
 
     return get_all_lines($sql);
 }
 
-
-function add_achat_dans_vente($id_produit_membre, $quantite_achat){
-
-    $sql1 = "SELECT id_produit_membre
-             FROM produit_membre
-             WHERE id_produit_membre = $id_produit_membre";
-
-    $result = get_one_line($sql1);
-
-    if(!$result){
-        echo "Produit introuvable";
-        return false;
-    }
-    
-
-
-    $sql2 = "INSERT INTO vente(date, heure, id_produit_membre, quantite)
-             VALUES(CURDATE(), CURTIME(), $id_produit_membre, $quantite_achat)";
-
-
-    if(!mysqli_query(dbconnect(), $sql2)){
-        echo mysqli_error(dbconnect());
-        return false;
-    }
-
-    return true;
-}
-
-
 function traitement_achat($id_produit_membre, $quantite_achat){
 
-    $sql1 = "SELECT quantite_dispo 
+
+    $sql1 = "SELECT quantite_dispo
              FROM produit_membre
              WHERE id_produit_membre = $id_produit_membre";
+
 
     $produit = get_one_line($sql1);
 
     if(!$produit){
+
+        echo "Produit introuvable";
         return false;
+
     }
 
     $quantite_dispo = $produit['quantite_dispo'];
-
     if($quantite_achat > $quantite_dispo){
+
+        echo "Stock insuffisant";
         return false;
+
     }
 
+    $sql2 = "INSERT INTO vente
+            (date, heure, id_produit_membre, quantite)
 
-    if(!add_achat_dans_vente($id_produit_membre, $quantite_achat)){
-        return false;
-    }
+            VALUES
 
-
-    $sql2 = "UPDATE produit_membre
-             SET quantite_dispo = quantite_dispo - $quantite_achat
-             WHERE id_produit_membre = $id_produit_membre";
-
+            (CURDATE(), CURTIME(), $id_produit_membre, $quantite_achat)";
 
     if(!mysqli_query(dbconnect(), $sql2)){
+
+
+        echo mysqli_error(dbconnect());
+
         return false;
+
     }
 
+    $sql3 = "UPDATE produit_membre
+
+             SET quantite_dispo = quantite_dispo - $quantite_achat
+
+             WHERE id_produit_membre = $id_produit_membre";
+
+    if(!mysqli_query(dbconnect(), $sql3)){
+
+
+        echo mysqli_error(dbconnect());
+
+        return false;
+
+    }
 
     return true;
 }
-
 
 // function add_achat_dans_vente($id_produit_membre, $quantite_achat){
 

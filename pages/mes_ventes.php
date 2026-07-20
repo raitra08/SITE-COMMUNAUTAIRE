@@ -1,38 +1,54 @@
 <?php
+
 session_start();
 
 include_once "../inc/fonctions.php";
 
 $ventes = get_mes_ventes($_SESSION['id_membre']);
-
 $total = get_total_ventes($_SESSION['id_membre']);
+
 ?>
 
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8">
+<title>Mes ventes</title>
 </head>
 <body>
-    <?php foreach($ventes as $vente){ ?>
+<h1>Mes ventes</h1>
 
-Produit : <?= $vente['nom']; ?><br>
+<a href="accueil.php">
+Retour accueil
+</a>
 
-Prix : <?= $vente['prix_vente']; ?> Ar<br>
+<br><br>
+<?php foreach($ventes as $vente){ ?>
+Produit :
+<?= $vente['nom']; ?>
+<br>
 
-Quantité vendue : <?= $vente['quantite_vendue']; ?><br>
+Prix :
+<?= $vente['prix_vente']; ?> Ar
+<br>
 
-Montant : <?= $vente['montant']; ?> Ar
+Quantité vendue :
+<?= $vente['quantite_vendue']; ?>
+<br>
 
+Montant :
+<?= $vente['montant']; ?> Ar
 <hr>
-
 <?php } ?>
 
 <h2>
 Total gagné :
 <?= $total['total']; ?> Ar
 </h2>
+
+
+
 </body>
+
 </html>

@@ -1,27 +1,51 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set('display_errors',1);
+
+
 session_start();
 
-include_once '../inc/connection.php';
-include_once '../inc/fonctions.php';
 
-if (!isset($_SESSION['membre_id'])) {
-    header("Location: index.php");
-    exit();
-}
+include_once "../inc/fonctions.php";
 
-$id_produit = (int)$_POST['id_produit'];
-$id_membre = $_SESSION['membre_id'];
-$prix_vente = $_POST['prix_vente'];
-$quantite_dispo = $_POST['quantite_dispo'];
-$date_dispo = $_POST['date_disponible'];
+
+
+$id_produit = $_POST['id_produit'];
+
+$prix = $_POST['prix_vente'];
+
+$quantite = $_POST['quantite_dispo'];
+
+$date = $_POST['date_disponible'];
+
+
+
+$id_membre = $_SESSION['id_membre'];
+
+
+
 
 insert_produit_membre(
+
     $id_produit,
+
     $id_membre,
-    $prix_vente,
-    $quantite_dispo,
-    $date_dispo
+
+    $prix,
+
+    $quantite,
+
+    $date
+
 );
 
+
+
+
 header("Location: accueil.php");
+
 exit();
+
+
+?>
