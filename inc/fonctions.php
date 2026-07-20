@@ -201,6 +201,7 @@ function get_total_ventes($id_membre){
 
     return get_one_line($sql);
 }
+
 function get_all_produits_en_vente($id_membre){
 
     $sql = "SELECT
